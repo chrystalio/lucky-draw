@@ -18,9 +18,26 @@ $(document).ready(() => {
     // masukan perserta ke table
     $("#perserta").DataTable({
         data: kodePeserta,
-        columns: [{ title: "No" }, { title: "Nama" }, { title: "Kehadiran" }],
+        columns: [{title: "No"}, {title: "Nama"}, {title: "Kehadiran"}],
         responsive: true,
     });
+
+
+    // Ketika tombol di klik maka checklist semua peserta. Kalau ada data baru tambahkan ke localstorage tanpa menghapus data lama
+    $("#selectAll").click(() => {
+        $("#perserta").DataTable().rows().every(function () {
+                let checkHadir = JSON.parse(localStorage.getItem("kodePesertaHadir")) || [];
+                $(this.node()).find("input[type='checkbox']").prop("checked", true);
+                let kode = $(this.node()).find("input[type='checkbox']").val();
+
+                if (checkHadir.indexOf(kode) === -1) {
+                    checkHadir.push(kode);
+                }
+                hadirPerserta(checkHadir);
+            }
+        );
+    });
+
 
     // input data kehadiran
     $("#perserta").on("click", "input[type='checkbox']", (e) => {
