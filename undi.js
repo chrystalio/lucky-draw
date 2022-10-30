@@ -49,7 +49,6 @@ $(document).ready((async () => {
             'STAND MIXER ELECTROLUX EHSM 2000 + SHOPPING VOUCHER 100K',
             'SODEXO SHOPPING VOUCHER 500K'
         ],
-
         sesi2: [
             'SAMSUNG HD TV 32" N4001',
             'KULKAS 1 PINTU AQUA AQR-D181',
@@ -124,7 +123,6 @@ $(document).ready((async () => {
             'JUICE EXTRACTOR MEMOO + SHOPPING VOUCHER 300K',
             'SODEXO SHOPPING VOUCHER 500K'
         ],
-
         sesi4: [
             'MESIN CUCI OTOMATIS MIDEA MAM7502(SK) 7.5KG',
             'KULKAS 1 PINTU AQUA AQR-D181',
@@ -186,12 +184,33 @@ $(document).ready((async () => {
     }
 
     const getPemenang = (ronde) => {
-        let jumlahPemenang = ronde === 1 ? 37 : 1;
-        let pemenang = [];
 
-        console.log(pemenang);
+        let totalPemenang = [];
 
-        return pemenang;
+        let pesertaHadir = JSON.parse(localStorage.getItem("kodePesertaHadir"));
+
+        // Get peserta hadir by length of hadiah ronde
+        let pesertaHadirByRonde = pesertaHadir.slice(0, getHadiah(ronde).length);
+
+        // Get pemenang by random
+        let pemenang = pesertaHadirByRonde.sort(() => Math.random() - 0.5);
+
+        for (let i = 0; i < pemenang.length; i++) {
+            totalPemenang.push({
+                kode: pemenang[i],
+                hadiah: getHadiah(ronde)[i]
+            });
+
+            // After push to totalPemenang, pop kodePesertaHadir
+            pesertaHadir.shift();
+        }
+
+        // Set total pemenang to localStorage
+        JSON.parse(localStorage.getItem("pemenang"));
+
+        return totalPemenang;
+
+
     }
 
     getPemenang(1);
@@ -221,7 +240,7 @@ $(document).ready((async () => {
 
         // check ronde
         let getRonde = Number(localStorage.getItem("ronde")) || 1;
-        if (getRonde >= 4) return alert("Ronde sudah ke 4 selesai, Silahkan input manual");
+        if (getRonde < 5) return alert("Ronde sudah ke 4 selesai, Silahkan input manual");
         localStorage.setItem("ronde", getRonde + 1);
 
         let pemenang = getPemenang(getRonde);
