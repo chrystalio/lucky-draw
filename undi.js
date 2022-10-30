@@ -14,7 +14,7 @@ $(document).ready((async () => {
         alert("Selamat datang di aplikasi undian hadiah, Silahkan isi data hadir peserta terlebih dahulu");
         window.location.href = "hadir.html";
     } else {
-        alert("Silahkan klik tombol undi untuk memulai undian. Jika ada kendala silahkan klik tombol restart aplikasi");
+        alert(`Silahkan klik tombol undi untuk memulai undian. Jika ada kendala silahkan klik tombol restart aplikasi\n\nTotal Jumlah Peserta yang hadir adalah ${JSON.parse(localStorage.getItem("kodePesertaHadir")).length}\n\nHadiah akan diundi secara acak dalam 4 Sesi`);
     }
 
     // hadiah
@@ -290,10 +290,10 @@ $(document).ready((async () => {
 
 
         table.innerHTML = `<tr>
-                <td colspan="3" class="text-center">
-                    <h3>
+                <td colspan="3" class="text-center text-bg-danger">
+                    <h4>
                         Ronde ${getRonde}
-                    </h3>
+                    </h4>
                 </td>
             </tr>`;
 
