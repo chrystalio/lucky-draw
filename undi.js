@@ -2,12 +2,12 @@ $(document).ready((async () => {
 
 
     // For debugging purpose only please uncomment the following line
-    let p = [];
-    for (i = 0; i < 40; i++) {
-        p[i] = "Z"+i.toString().padStart("3", "0");
-    }
-
-    localStorage.setItem("kodePesertaHadir", JSON.stringify(p));
+    // let p = [];
+    // for (i = 0; i < 40; i++) {
+    //     p[i] = "Z" + i.toString().padStart("3", "0");
+    // }
+    //
+    // localStorage.setItem("kodePesertaHadir", JSON.stringify(p));
 
     // Check if the user has already opened the page hadir.html
     if (localStorage.getItem("kodePesertaHadir") === null) {
@@ -16,8 +16,6 @@ $(document).ready((async () => {
     } else {
         alert("Silahkan klik tombol undi untuk memulai undian. Jika ada kendala silahkan klik tombol restart aplikasi");
     }
-
-    let checkHadir = (await JSON.parse(localStorage.getItem("kodePesertaHadir"))) || [];
 
     // hadiah
     let hadiah = {
@@ -186,7 +184,7 @@ $(document).ready((async () => {
     // always reset the round on page load
     localStorage.setItem("ronde", 0);
 
-    const inArray= (needle, haystack) => {
+    const inArray = (needle, haystack) => {
         var length = haystack.length;
         for (var i = 0; i < length; i++) {
             if (haystack[i] === needle) return true;
@@ -285,5 +283,28 @@ $(document).ready((async () => {
 
         let pemenang = getPemenang(getRonde);
         insertPemenang(getRonde, pemenang);
+
+
+        // Show pemenang on table
+        let table = document.getElementById("hasil");
+
+
+        table.innerHTML = `<tr>
+                <td colspan="3" class="text-center">
+                    <h3>
+                        Ronde ${getRonde}
+                    </h3>
+                </td>
+            </tr>`;
+
+        pemenang.forEach((item, index) => {
+            document.getElementById("hasil").innerHTML += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${item.kode}</td>
+                    <td>${item.hadiah}</td>
+                </tr>
+            `;
+        });
     });
 }));
