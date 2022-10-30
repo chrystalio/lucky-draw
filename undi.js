@@ -1,5 +1,14 @@
 $(document).ready((async () => {
 
+
+    // For debugging purpose only please uncomment the following line
+    let p = [];
+    for (i = 0; i < 40; i++) {
+        p[i] = "Z"+i.toString().padStart("3", "0");
+    }
+
+    localStorage.setItem("kodePesertaHadir", JSON.stringify(p));
+
     // Check if the user has already opened the page hadir.html
     if (localStorage.getItem("kodePesertaHadir") === null) {
         alert("Selamat datang di aplikasi undian hadiah, Silahkan isi data hadir peserta terlebih dahulu");
@@ -173,7 +182,17 @@ $(document).ready((async () => {
     // LocalStorage database
     localStorage.setItem("hadiah", JSON.stringify(hadiah));
     localStorage.setItem("pemenang", JSON.stringify(winners));
-    localStorage.setItem("ronde", 1);
+
+    // always reset the round on page load
+    localStorage.setItem("ronde", 0);
+
+    const inArray= (needle, haystack) => {
+        var length = haystack.length;
+        for (var i = 0; i < length; i++) {
+            if (haystack[i] === needle) return true;
+        }
+        return false;
+    }
 
 
     // get hadiah by ronde
@@ -183,27 +202,45 @@ $(document).ready((async () => {
         return hadiahRonde;
     }
 
+    const randomize = (peserta, n) => {
+        let level1 = _.sample(peserta, 34);
+        let level2 = _.sample(level1, n);
+        return _.sample(level2, n);
+    }
+
     const getPemenang = (ronde) => {
 
         let totalPemenang = [];
 
         let pesertaHadir = JSON.parse(localStorage.getItem("kodePesertaHadir"));
 
+        // Get hadiah by ronde
+        let hadiah = getHadiah(ronde);
+
         // Get peserta hadir by length of hadiah ronde
-        let pesertaHadirByRonde = pesertaHadir.slice(0, getHadiah(ronde).length);
+        let pesertaHadirByRonde = pesertaHadir.slice(0, hadiah.length);
 
         // Get pemenang by random
-        let pemenang = pesertaHadirByRonde.sort(() => Math.random() - 0.5);
+        // let pemenang = pesertaHadirByRonde.sort(() => Math.random() - 0.5);
+        let pemenang = randomize(pesertaHadirByRonde, hadiah.length);
+        let hadiahRonde = randomize(hadiah, hadiah.length);
+
 
         for (let i = 0; i < pemenang.length; i++) {
             totalPemenang.push({
                 kode: pemenang[i],
-                hadiah: getHadiah(ronde)[i]
+                hadiah: hadiahRonde[i]
             });
 
             // After push to totalPemenang, pop kodePesertaHadir
-            pesertaHadir.shift();
+            // pesertaHadir.shift();
         }
+
+        pesertaHadir = _.filter(pesertaHadir, (value) => {
+            return !inArray(value, pesertaHadirByRonde);
+        });
+
+        localStorage.setItem("kodePesertaHadir", JSON.stringify(pesertaHadir));
 
         // Set total pemenang to localStorage
         JSON.parse(localStorage.getItem("pemenang"));
@@ -212,8 +249,6 @@ $(document).ready((async () => {
 
 
     }
-
-    getPemenang(1);
 
     const insertPemenang = (ronde, pemenang) => {
         let getWinners = JSON.parse(localStorage.getItem("pemenang")) || [];
@@ -236,12 +271,17 @@ $(document).ready((async () => {
 
     $("#tombol").on("click", function () {
         // check absen
-        if (!checkHadir.length) return alert("Peserta tidak ada yang hadir");
+        let peserta = JSON.parse(localStorage.getItem("kodePesertaHadir"));
+
+        if (!peserta.length) return alert("Peserta tidak ada yang hadir");
 
         // check ronde
-        let getRonde = Number(localStorage.getItem("ronde")) || 1;
-        if (getRonde < 5) return alert("Ronde sudah ke 4 selesai, Silahkan input manual");
-        localStorage.setItem("ronde", getRonde + 1);
+        let getRonde = Number(localStorage.getItem("ronde")) ?? 0;
+        getRonde += 1;
+        localStorage.setItem("ronde", getRonde);
+        if (getRonde > 4) {
+            return alert("Ronde sudah ke 4 selesai, Silahkan input manual");
+        }
 
         let pemenang = getPemenang(getRonde);
         insertPemenang(getRonde, pemenang);
