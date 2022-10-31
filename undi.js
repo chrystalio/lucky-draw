@@ -59,40 +59,42 @@ $(document).ready((async () => {
         sesi2: [
             'SAMSUNG HD TV 32" N4001',
             'KULKAS 1 PINTU AQUA AQR-D181',
-            'FINE GOLD - UBS 2 Gr',
             'HP VIVO Y15s',
+            'HP SAMSUNG GALAXY A03 CORE',
+            'FINE GOLD - UBS 2 gr',
             'SHARP SPEAKER SYSTEM PS-920',
             'SEPEDA (blue)',
             'HP SAMSUNG GALAXY A03 CORE',
-            'MESIN CUCI AQUA QW-781XT MANUAL 7 KG',
-            'HP SAMSUNG GALAXY A03S',
+            'MESIN CUCI AQUA QW-781XT MANUAL 7KG',
             'HP REDMI 9A 3GB/32GB',
-            'FINE GOLD - ANTAM 1 gr',
             'DISPENSER MIYAKO WDP-300',
-            'FINE GOLD - ANTAM 1 gr',
-            'HP SAMSUNG GALAXY A03 CORE',
-            'FINE GOLD - ANTAM 1 gr',
+            'HP SAMSUNG GALAXY A03S',
+            'DISPENSER MIYAKO WDP-300',
             'MICROWAVE OVEN SHARP 23L R-21D0(S)-IN',
+            'FINE GOLD - ANTAM 1 gr',
+            'FINE GOLD - ANTAM 1 gr',
             'FINE GOLD - UBS 1 gr',
-            'DISPENSER MIYAKO WDP-300',
+            'KOMPOR GAS 2T RINNAI RI-522S + PERSONAL BLENDER SHARP EM-P01-BK',
+            'RICE COOKER SHARP KS-R18MS-BR + BOX CUTLERY SET + SHOPPING VOUCHER 100K',
             'AIR COOLER SHARP PJ-A26MY-B',
             'OVEN ELECTRIC SHARP EO-25BK',
             'MICROWAVE SHARP R-220MA-WH',
-            'BEDDING SET INFORMA (SHEET SET)',
-            'FINE GOLD - ANTAM 1 gr',
             'AIR FRYER LOCKnLOCK',
             'ELECTRIC OVEN EO-18L(W)',
-            'BLENDER QUANTUM + KIPAS ANGIN (STAND FAN) COSMOS 16-XDC',
-            'KOMPOR GAS 2T RINNAI RI-522S + PERSONAL BLENDER SHARP EM-P01-BK',
-            'RICE COOKER SHARP KS-R18MS-BR + BOX CUTLERY SET + SHOPPING VOUCHER 100K',
+            'FINE GOLD - ANTAM 1 gr',
+            'FINE GOLD - ANTAM 1 gr',
             'BEDDING SET INFORMA',
-            'CASSEROLE WITH LID (PANCI INFORMA) + RICE COOKER PREMIUM HOME  IHP118 + SHOPPING VOUCHER 100K',
-            'BED COVER MICROFIBER (B) SABINE + SHOPPING VOUCHER 200K\n' +
+            'BEDDING SET INFORMA (SHEET SET)',
+            'BLENDER QUANTUM + KIPAS ANGIN (STAND FAN) COSMOS 16-XDC',
             'KOMPOR GAS 2T MIYAKO KG 302C + UTENSIL SET WITH HOLDER (INFORMA)',
+            'CASSEROLE WITH LID (PANCI INFORMA) + RICE COOKER PREMIUM HOME  IHP118 + SHOPPING VOUCHER 100K',
+            'BED COVER MICROFIBER (B) SABINE + SHOPPING VOUCHER 200K',
             'BLENDER TURBO 1.2 L + SHOPPING VOUCHER 300K',
             'KOMPOR GAS 2T RINNAI RI-522C + SHOPPING VOUCHER TOP 100 100K',
             'SODEXO SHOPPING VOUCHER 500K'
-        ],
+
+
+],
         sesi3: [
             'MESIN CUCI OTOMATIS SHARP ES-G876-GY 7KG',
             'KULKAS 1 PINTU AQUA AQR-D181',
@@ -208,11 +210,22 @@ $(document).ready((async () => {
         return winners;
     }
 
+    const shuffleArray = (array) => {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+
     const getPemenang = (ronde) => {
 
         let totalPemenang = [];
 
         let pesertaHadir = JSON.parse(localStorage.getItem("kodePesertaHadir"));
+
+        shuffleArray(pesertaHadir);
 
         // Get hadiah by ronde
         let hadiah = getHadiah(ronde);
@@ -280,11 +293,18 @@ $(document).ready((async () => {
         getRonde += 1;
         localStorage.setItem("ronde", getRonde);
         if (getRonde > 4) {
-            return alert("Ronde sudah ke 4 selesai, Silahkan input manual");
+            alert("Ronde sudah ke 4 selesai, Silahkan input manual");
+
+            // Redirect to tes.html. Open in new tab
+            window.open("undi-manual.html", "_blank");
         }
 
         let pemenang = getPemenang(getRonde);
         insertPemenang(getRonde, pemenang);
+
+        alert(`Ronde ${getRonde} dimulai...`);
+
+
 
 
         // Show pemenang on table
