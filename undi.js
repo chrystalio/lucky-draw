@@ -201,9 +201,11 @@ $(document).ready((async () => {
     }
 
     const randomize = (peserta, n) => {
-        let level1 = _.sample(peserta, 34);
-        let level2 = _.sample(level1, n);
-        return _.sample(level2, n);
+        // Randomize kode peserta array
+        let randomized = peserta.sort(() => Math.random() - 0.5);
+        // Get first n elements
+        let winners = randomized.slice(0, n);
+        return winners;
     }
 
     const getPemenang = (ronde) => {
