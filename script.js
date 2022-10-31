@@ -15,6 +15,18 @@ $(document).ready(() => {
         ]);
     }
 
+
+    $('#clearLS').on('click', () => {
+        // Check if there are items in the localStorage
+        if (localStorage.length > 0) {
+            localStorage.clear();
+            alert('Aplikasi berhasil di reset. Silahkan absen kembali.');
+            window.location.href = "hadir.html";
+        } else {
+            alert('Aplikasi sudah di reset.');
+        }
+    });
+
     // masukan perserta ke table
     $("#perserta").DataTable({
         data: kodePeserta,
