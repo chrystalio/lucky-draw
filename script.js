@@ -32,6 +32,7 @@ $(document).ready(() => {
         data: kodePeserta,
         columns: [{title: "No"}, {title: "Nama"}, {title: "Kehadiran"}],
         responsive: true,
+        pageLength: 100,
     });
 
 
