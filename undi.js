@@ -1,12 +1,12 @@
 $(document).ready((async () => {
 
     // For debugging purpose only please uncomment the following line
-    let p = [];
-    for (i = 0; i < 175; i++) {
-        p[i] = "Z" + i.toString().padStart("3", "0");
-    }
-
-    localStorage.setItem("kodePesertaHadir", JSON.stringify(p));
+    // let p = [];
+    // for (i = 0; i < 175; i++) {
+    //     p[i] = "Z" + i.toString().padStart("3", "0");
+    // }
+    //
+    // localStorage.setItem("kodePesertaHadir", JSON.stringify(p));
 
     // Check if the user has already opened the page hadir.html
     if (localStorage.getItem("kodePesertaHadir") === null) {
@@ -318,13 +318,13 @@ $(document).ready((async () => {
         Swal.fire({
             title: 'Sedang undi hadiah & pemenang...',
             html: 'Mohon tunggu sebentar....',
-            timer: 1500,
+            timer: 2000,
             didOpen: () => {
                 Swal.showLoading()
                 const b = Swal.getHtmlContainer().querySelector('b')
                 timerInterval = setInterval(() => {
                     b.textContent = Swal.getTimerLeft()
-                }, 1500)
+                }, 2000)
             },
             willClose: () => {
                 clearInterval(timerInterval)
@@ -353,6 +353,6 @@ $(document).ready((async () => {
             `;
             });
         }
-            , 1500);
+            , 2000);
     });
 }));
