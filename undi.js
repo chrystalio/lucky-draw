@@ -1,13 +1,12 @@
 $(document).ready((async () => {
 
-
     // For debugging purpose only please uncomment the following line
-    // let p = [];
-    // for (i = 0; i < 40; i++) {
-    //     p[i] = "Z" + i.toString().padStart("3", "0");
-    // }
-    //
-    // localStorage.setItem("kodePesertaHadir", JSON.stringify(p));
+    let p = [];
+    for (i = 0; i < 175; i++) {
+        p[i] = "Z" + i.toString().padStart("3", "0");
+    }
+
+    localStorage.setItem("kodePesertaHadir", JSON.stringify(p));
 
     // Check if the user has already opened the page hadir.html
     if (localStorage.getItem("kodePesertaHadir") === null) {
@@ -20,41 +19,41 @@ $(document).ready((async () => {
     // hadiah
     let hadiah = {
         sesi1: [
-            'SAMSUNG HD TV 32 INCH',
+            'SAMSUNG HD TV 32" N4001',
             'HP INFINIX HOT 12 RAM 6GB / 128GB',
             'KULKAS 1 PINTU AQUA AQR-D181',
-            'FINE GOLD - UBS 2 Gr',
-            'TCL LED TV 32 INCH',
+            'FINE GOLD - UBS 2 gr',
+            'TCL LED TV 32" ',
             'HP SAMSUNG GALAXY A03 CORE',
             'HP SAMSUNG GALAXY A03S',
-            'MESIN CUCI AQUA QW-781XT MANUAL 7 KG',
+            'MESIN CUCI AQUA QW-781XT MANUAL 7KG',
             'HP REDMI 9A 3GB/32GB',
-            'FINE GOLD - ANTAM 1gr',
-            'HP SAMSUNG GALAXY A03 CORE',
+            'FINE GOLD - ANTAM 1 gr',
             'GEA KULKAS MINI BAR RS-06DR STAINLESS STEEL',
-            'FINE GOLD - ANTAM 1gr',
             'DISPENSER MIYAKO WDP-300',
-            'FINE GOLD - UBS 1 gr',
             'ELECTRIC OVEN KELS 28L',
             'MICROWAVE SHARP 23L R-21D0(S)-IN',
-            'FINE GOLD - GALLERY24 1 gr',
-            'BLENDER PHILIPS 5000 SERIES',
+            'FINE GOLD - ANTAM 1 gr',
+            'HP SAMSUNG GALAXY A03 CORE',
+            'FINE GOLD - GALERY24 1 gr',
+            'BLENDER PHILIPS 5000 Series',
             'AIR COOLER SHARP PJ-A26MY-B',
             'ELECTRIC OVEN SHARP EO-28LP(K)',
-            'FINE GOLD - ANTAM 1gr',
-            'ELECTRIC OVEN SHARP EO-28LP(K)',
-            'RICE COOKER PANASONIC SR CEZ18',
+            'FINE GOLD - ANTAM 1 gr',
+            'FINE GOLD - UBS 1 gr',
             'AIR FRYER MITO AF2 DIGI FRY-GO',
             'VOUCHER 1 NIGHT STAY AT SWISS BELL HOTEL',
             'DISPENSER MIYAKO WD-389 HC',
+            'ELECTRIC OVEN SHARP EO-28LP(K)',
             'RICE COOKER COSMOS CRJ-3305 + KIPAS ANGIN (STAND FAN) MIYAKO KAS-1618 B',
+            'RICE COOKER PANASONIC SR CEZ18',
             'KOMPOR GAS 2T RINNAI RI-522S + KOMPOR GAS 2T RINNAI RI-522S',
             'BED SHEET SET KING (SLEEP LITE) + BED COVER INFORMA + SHOPPING VOUCHER 100K',
             'ELECTRIC KETTLE SHARP 1.5L EKJ-156-BK + KIPAS ANGIN (STAND FAN) COSMOS 16-XDC + SHOPPING VOUCHER 100K',
             'PAN (COOKWARE / PANCI INFORMA) + SHOPPING VOUCHER 100K',
             'KIPAS ANGIN (STAND FAN) COSMOS 16-SDB + SHOPPING VOUCHER 200K',
             'STAND MIXER ELECTROLUX EHSM 2000 + SHOPPING VOUCHER 100K',
-            'SODEXO SHOPPING VOUCHER 500K'
+            'SODEXO SHOPPING VOUCHER 500K',
         ],
         sesi2: [
             'SAMSUNG HD TV 32" N4001',
@@ -179,6 +178,8 @@ $(document).ready((async () => {
         ronde4: [],
     };
 
+
+
     // LocalStorage database
     localStorage.setItem("hadiah", JSON.stringify(hadiah));
     localStorage.setItem("pemenang", JSON.stringify(winners));
@@ -235,6 +236,8 @@ $(document).ready((async () => {
 
         // Get pemenang by random
         // let pemenang = pesertaHadirByRonde.sort(() => Math.random() - 0.5);
+
+
         let pemenang = randomize(pesertaHadirByRonde, hadiah.length);
         let hadiahRonde = randomize(hadiah, hadiah.length);
 
@@ -284,6 +287,14 @@ $(document).ready((async () => {
 
     $("#tombol").on("click", function () {
         // check absen
+
+        Swal.fire({
+            title: 'Sedang mengundi...',
+            html: 'Mohon tunggu sebentar',
+            timer: 3000,
+            timerProgressBar: true,
+        });
+
         let peserta = JSON.parse(localStorage.getItem("kodePesertaHadir"));
 
         if (!peserta.length) return alert("Peserta tidak ada yang hadir");
@@ -302,16 +313,29 @@ $(document).ready((async () => {
         let pemenang = getPemenang(getRonde);
         insertPemenang(getRonde, pemenang);
 
-        alert(`Ronde ${getRonde} dimulai...`);
 
+        // Show pemenang on the table after swal
+        Swal.fire({
+            title: 'Sedang undi hadiah & pemenang...',
+            html: 'Mohon tunggu sebentar....',
+            timer: 1500,
+            didOpen: () => {
+                Swal.showLoading()
+                const b = Swal.getHtmlContainer().querySelector('b')
+                timerInterval = setInterval(() => {
+                    b.textContent = Swal.getTimerLeft()
+                }, 1500)
+            },
+            willClose: () => {
+                clearInterval(timerInterval)
+            }
+        });
 
+        setTimeout(() => {
+            // Show pemenang on table
+            let table = document.getElementById("hasil");
 
-
-        // Show pemenang on table
-        let table = document.getElementById("hasil");
-
-
-        table.innerHTML = `<tr>
+            table.innerHTML = `<tr>
                 <td colspan="3" class="text-center text-bg-danger">
                     <h4>
                         Ronde ${getRonde}
@@ -319,14 +343,16 @@ $(document).ready((async () => {
                 </td>
             </tr>`;
 
-        pemenang.forEach((item, index) => {
-            document.getElementById("hasil").innerHTML += `
+            pemenang.forEach((item, index) => {
+                document.getElementById("hasil").innerHTML += `
                 <tr>
                     <td>${index + 1}</td>
                     <td>${item.kode}</td>
                     <td>${item.hadiah}</td>
                 </tr>
             `;
-        });
+            });
+        }
+            , 1500);
     });
 }));
