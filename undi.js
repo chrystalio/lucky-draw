@@ -1,5 +1,5 @@
 $(document).ready((async () => {
-
+    // const Swal = require('sweetalert2');
     // For debugging purpose only please uncomment the following line
     // let p = [];
     // for (i = 0; i < 175; i++) {
@@ -288,13 +288,6 @@ $(document).ready((async () => {
     $("#tombol").on("click", function () {
         // check absen
 
-        Swal.fire({
-            title: 'Sedang mengundi...',
-            html: 'Mohon tunggu sebentar',
-            timer: 3000,
-            timerProgressBar: true,
-        });
-
         let peserta = JSON.parse(localStorage.getItem("kodePesertaHadir"));
 
         if (!peserta.length) return alert("Peserta tidak ada yang hadir");
@@ -313,23 +306,7 @@ $(document).ready((async () => {
         let pemenang = getPemenang(getRonde);
         insertPemenang(getRonde, pemenang);
 
-
-        // Show pemenang on the table after swal
-        Swal.fire({
-            title: 'Sedang undi hadiah & pemenang...',
-            html: 'Mohon tunggu sebentar....',
-            timer: 5000,
-            didOpen: () => {
-                Swal.showLoading()
-                const b = Swal.getHtmlContainer().querySelector('b')
-                timerInterval = setInterval(() => {
-                    b.textContent = Swal.getTimerLeft()
-                }, 5000)
-            },
-            willClose: () => {
-                clearInterval(timerInterval)
-            }
-        });
+        setTimeout(function(){$('#modal').modal('hide')},5000);
 
         setTimeout(() => {
             // Show pemenang on table
