@@ -306,7 +306,7 @@ $(document).ready((async () => {
         let pemenang = getPemenang(getRonde);
         insertPemenang(getRonde, pemenang);
 
-        setTimeout(function(){$('#modal').modal('hide')},5000);
+        setTimeout(function(){$('#modal').modal('hide')},7000);
 
         setTimeout(() => {
             // Show pemenang on table
@@ -330,6 +330,6 @@ $(document).ready((async () => {
             `;
             });
         }
-            , 5000);
+            , 7000);
     });
 }));
