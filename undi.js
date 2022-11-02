@@ -318,13 +318,13 @@ $(document).ready((async () => {
         Swal.fire({
             title: 'Sedang undi hadiah & pemenang...',
             html: 'Mohon tunggu sebentar....',
-            timer: 2000,
+            timer: 5000,
             didOpen: () => {
                 Swal.showLoading()
                 const b = Swal.getHtmlContainer().querySelector('b')
                 timerInterval = setInterval(() => {
                     b.textContent = Swal.getTimerLeft()
-                }, 2000)
+                }, 5000)
             },
             willClose: () => {
                 clearInterval(timerInterval)
@@ -353,6 +353,6 @@ $(document).ready((async () => {
             `;
             });
         }
-            , 2000);
+            , 5000);
     });
 }));
