@@ -1,7 +1,7 @@
 $(document).ready(() => {
 
     // Get kodePesertaHadir from localStorage
-    let kodePesertaHadir = JSON.parse(localStorage.getItem("kodePesertaHadir")) || [];
+    let mainWinner = JSON.parse(localStorage.getItem("mainWinner")) || [];
 
     $('#clearLS').on('click', () => {
         // Check if there are items in the localStorage
@@ -19,7 +19,7 @@ $(document).ready(() => {
     let table = document.getElementById("list");
 
 
-        kodePesertaHadir.forEach((item, index) => {
+        mainWinner.forEach((item, index) => {
             document.getElementById("list").innerHTML += `
                 <tr>
                     <td>${index + 1}</td>
