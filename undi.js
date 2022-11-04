@@ -12,7 +12,7 @@ $(document).ready((async () => {
         alert("Selamat datang di aplikasi undian hadiah, Silahkan isi data hadir peserta terlebih dahulu");
         window.location.href = "hadir.html";
     } else {
-        alert(`Silahkan klik tombol undi untuk memulai undian. Jika ada kendala silahkan klik tombol restart aplikasi\n\nTotal Jumlah Peserta yang hadir adalah ${JSON.parse(localStorage.getItem("kodePesertaHadir")).length}\n\nHadiah akan diundi secara acak dalam 4 Sesi`);
+        alert(`Silahkan klik tombol undi untuk memulai undian. Jika ada kendala silahkan klik tombol restart aplikasi\n\nTotal Jumlah Peserta yang hadir adalah ${JSON.parse(localStorage.getItem("kodePesertaHadir")).length}\n\nHadiah akan diundi secara acak dalam 4 Sesi.`);
     }
 
     // hadiah
@@ -213,7 +213,6 @@ $(document).ready((async () => {
         return array;
     }
 
-
     const getWinners = (ronde) => {
         if (ronde === 1) {
             let peserta = JSON.parse(localStorage.getItem("kodePesertaHadir"));
@@ -285,6 +284,7 @@ $(document).ready((async () => {
     });
 
     $("#tombol").on("click", function () {
+        let peserta = JSON.parse(localStorage.getItem("kodePesertaHadir"));
         // check ronde
         let getRonde = Number(localStorage.getItem("ronde")) ?? 0;
         getRonde += 1;
@@ -293,6 +293,11 @@ $(document).ready((async () => {
         if (getRonde > 4) {
             alert("Ronde sudah ke 4 selesai, Silahkan input manual");
             window.open("undi-manual.html", "_blank");
+        } else {
+            if (!peserta.length){
+                alert("Peserta sudah habis, silahkan undi manual");
+                window.open("undi-manual.html", "_blank");
+            }
         }
 
         setTimeout(function(){$('#modal').modal('hide')},5000);
