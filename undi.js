@@ -17,7 +17,7 @@ $(document).ready((async () => {
 
     // hadiah
     let hadiah = {
-        sesi1: [
+        sesi4: [
             'SAMSUNG HD TV 32" N4001',
             'HP INFINIX HOT 12 RAM 6GB / 128GB',
             'KULKAS 1 PINTU AQUA AQR-D181',
@@ -54,7 +54,7 @@ $(document).ready((async () => {
             'STAND MIXER ELECTROLUX EHSM 2000 + SHOPPING VOUCHER 100K',
             'SODEXO SHOPPING VOUCHER 500K',
         ],
-        sesi2: [
+        sesi3: [
             'SAMSUNG HD TV 32" N4001',
             'KULKAS 1 PINTU AQUA AQR-D181',
             'HP VIVO Y15s',
@@ -91,7 +91,7 @@ $(document).ready((async () => {
             'KOMPOR GAS 2T RINNAI RI-522C + SHOPPING VOUCHER TOP 100 100K',
             'SODEXO SHOPPING VOUCHER 500K'
         ],
-        sesi3: [
+        sesi2: [
             'MESIN CUCI OTOMATIS SHARP ES-G876-GY 7KG',
             'KULKAS 1 PINTU AQUA AQR-D181',
             'HP VIVO Y15s',
@@ -128,7 +128,7 @@ $(document).ready((async () => {
             'JUICE EXTRACTOR MEMOO + SHOPPING VOUCHER 300K',
             'SODEXO SHOPPING VOUCHER 500K'
         ],
-        sesi4: [
+        sesi1: [
             'MESIN CUCI OTOMATIS MIDEA MAM7502(SK) 7.5KG',
             'KULKAS 1 PINTU AQUA AQR-D181',
             'SEPEDA (green)',
